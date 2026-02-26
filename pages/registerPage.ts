@@ -46,6 +46,7 @@ export class RegisterPage {
   async navigate(url: string = "https://ecommerce-playground.lambdatest.io/") {
     await this.page.goto(url);
     await this.myaccButton.hover();
+    await this.registerLink.waitFor({ state: 'visible' });
     await this.registerLink.click();
   }
 
