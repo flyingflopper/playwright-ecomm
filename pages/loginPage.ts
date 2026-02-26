@@ -20,6 +20,7 @@ export class LoginPage {
   readonly contineButton: Locator;
   readonly forgotpass2Link: Locator;
   readonly loginErrorMsg: Locator;
+  readonly rateErrorMsg: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -46,6 +47,9 @@ export class LoginPage {
     });
     this.loginErrorMsg = page.getByText(
       "Warning: No match for E-Mail Address and/or Password.",
+    );
+    this.rateErrorMsg = page.getByText(
+      "Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.",
     );
   }
 
