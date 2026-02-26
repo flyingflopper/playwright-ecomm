@@ -30,7 +30,7 @@ test ('User Login successfully', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'My Account' })).toBeVisible();
 });
 
-test.only ('User Login failed with wrong email', async ({ page }) => {
+test ('User Login failed with wrong email', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.login('certain.loon.qgwq@hidingmail.com1', 'Password123');
