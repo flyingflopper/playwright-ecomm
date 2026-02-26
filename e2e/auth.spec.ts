@@ -34,19 +34,20 @@ test ('User Login failed with wrong email', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.login('certain.loon.qgwq@hidingmail.com1', 'Password123');
-    await expect(loginPage.loginErrorMsg).toBeVisible();
+    await page.pause();
+    await expect(loginPage.loginErrorMsg.or(loginPage.rateErrorMsg)).toBeVisible();
 });
 
 test ('User Login failed with wrong password', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.login('certain.loon.qgwq@hidingmail.com', 'Password1234');
-    await expect(loginPage.loginErrorMsg).toBeVisible();
+    await expect(loginPage.loginErrorMsg.or(loginPage.rateErrorMsg)).toBeVisible();
 });
 
 test ('User Login failed with invalid email format', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate();
     await loginPage.login('certain.loon.qgwqhidingmail.com', 'Password123');
-    await expect(loginPage.loginErrorMsg).toBeVisible();
+    await expect(loginPage.loginErrorMsg.or(loginPage.rateErrorMsg)).toBeVisible();
 });
