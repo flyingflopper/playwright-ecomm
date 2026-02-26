@@ -10,5 +10,3 @@ export const test = base.extend<TestFixtures>({
     await use(email);
   },
 });
-
-export { expect } from '@playwright/test';
