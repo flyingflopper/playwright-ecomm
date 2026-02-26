@@ -52,6 +52,7 @@ export class LoginPage {
   async navigate(url: string = "https://ecommerce-playground.lambdatest.io/") {
     await this.page.goto(url);
     await this.myaccButton.hover();
+    await this.loginLink.waitFor({ state: 'visible' });
     await this.loginLink.click();
   }
 
