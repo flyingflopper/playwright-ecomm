@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { test } from "../fixtures/homepageFixture";
+import { test } from "../fixtures/fixturesBase";
 
 test.describe("Homepage tests", () => {
   test("Verify homepage elements", async ({ homePage }) => {
