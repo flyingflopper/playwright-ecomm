@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { test } from "../fixtures/emailfixture";
+import { test } from "../fixtures/fixturesBase";
 import { RegisterPage } from "../pages/registerPage";
 import { LoginPage } from "../pages/loginPage";
 
