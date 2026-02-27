@@ -4,6 +4,7 @@ export class LoginPage {
   readonly page: Page;
   readonly myaccButton: Locator;
   readonly loginLink: Locator;
+  readonly logoutLink: Locator;
   readonly emailField: Locator;
   readonly passwordField: Locator;
   readonly loginButton: Locator;
@@ -25,6 +26,7 @@ export class LoginPage {
   constructor(page: Page) {
     this.page = page;
     this.myaccButton = page.getByRole("button", { name: "My Account" });
+    this.logoutLink = page.getByRole("link", { name: "Logout", exact: true });
     this.loginLink = page.getByRole("link", { name: "Login" });
     this.emailField = page.getByRole("textbox", { name: "E-Mail Address" });
     this.passwordField = page.getByRole("textbox", { name: "Password" });
@@ -56,7 +58,6 @@ export class LoginPage {
   async navigate(url: string = "https://ecommerce-playground.lambdatest.io/") {
     await this.page.goto(url);
     await this.myaccButton.hover();
-    await this.loginLink.waitFor({ state: 'visible' });
     await this.loginLink.click();
   }
 
@@ -64,5 +65,10 @@ export class LoginPage {
     await this.emailField.fill(email);
     await this.passwordField.fill(password);
     await this.loginButton.click();
+  }
+  
+  async logout() {
+    await this.myaccButton.hover();
+    await this.logoutLink.click();
   }
 }
