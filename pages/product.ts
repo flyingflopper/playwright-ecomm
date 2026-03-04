@@ -36,7 +36,77 @@ export class ProductListingPage {
   }
 
   async applyPriceFilter(min: number, max: number) {
-    await this.minPrice.fill(min.toString());
-    await this.maxPrice.fill(max.toString());
+    await this.page.waitForLoadState("networkidle");
+    await this.minPrice.clear();
+    await this.minPrice.pressSequentially(min.toString(), { delay: 100 });
+    await this.maxPrice.clear();
+    await this.maxPrice.pressSequentially(max.toString(), { delay: 100 });
+    await this.maxPrice.press("Tab");
+
+    await this.page.waitForURL(/mz_fp=/);
+    await this.page.waitForTimeout(4000);
+  }
+
+  async pricesAreWithinRange(min: number, max: number): Promise<boolean> {
+    const prices = await this.productList.locator(".price-new").allTextContents();
+    console.log("Raw prices:", prices); // see what's being captured
+
+    return prices.every((priceText) => {
+      const price = parseFloat(priceText.replace("$", "").replace(",", ""));
+      return !isNaN(price) && price >= min && price <= max;
+    });
+  }
+
+  async sortBy(
+    option:
+      | "Default"
+      | "Best sellers"
+      | "Popular"
+      | "Newest"
+      | "Name (A - Z)"
+      | "Name (Z - A)"
+      | "Price (Low > High)"
+      | "Price (High > Low)"
+      | "Rating (Highest)"
+      | "Rating (Lowest)"
+      | "Model (A - Z)"
+      | "Model (Z - A)",
+  ) {
+    await this.sortByDropdown.selectOption({ label: option });
+    await this.page.waitForURL(/sort=/);
+  }
+
+  async checkAscendingPrice(): Promise<boolean> {
+    const prices = await this.productList.locator(".price-new").allTextContents();
+    const numericPrices = prices.map((text) => parseFloat(text.replace("$", "").replace(",", ""))).filter((price) => !isNaN(price));
+    for (let i = 1; i < numericPrices.length; i++) {
+      if (numericPrices[i] < numericPrices[i - 1]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  async checkDescendingPrice(): Promise<boolean> {
+    const prices = await this.productList.locator(".price-new").allTextContents();
+    const numericPrices = prices.map((text) => parseFloat(text.replace("$", "").replace(",", ""))).filter((price) => !isNaN(price));
+    for (let i = 1; i < numericPrices.length; i++) {
+      if (numericPrices[i] > numericPrices[i - 1]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  async checkNameAZ(): Promise<boolean> {
+    const prodNames = await this.productList.locator(".caption > h4 > a").allTextContents();
+    const sortedNames = [...prodNames].sort((a, b) => a.localeCompare(b));
+    return JSON.stringify(prodNames) === JSON.stringify(sortedNames);
+  }
+
+  async checkNameZA(): Promise<boolean> {
+    const prodNames = await this.productList.locator(".caption > h4 > a").allTextContents();
+    const sortedNames = [...prodNames].sort((a, b) => b.localeCompare(a));
+    return JSON.stringify(prodNames) === JSON.stringify(sortedNames);
   }
 }
