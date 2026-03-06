@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { test } from "../../fixtures/fixturesBase";
+import { test } from "../fixtures/fixturesBase";
 
 test.describe("Registration tests", () => {
   test("User Register successfully", async ({ page, userEmail, registerPage }) => {

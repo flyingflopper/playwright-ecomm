@@ -1,12 +1,12 @@
 import { expect } from "@playwright/test";
-import { test } from "../../fixtures/fixturesBase";
+import { test } from "../fixtures/fixturesBase";
 
 test.describe("Homepage tests", () => {
   test("Verify homepage elements", async ({ homePage }) => {
     await expect(homePage.searchInput).toBeVisible();
     await expect(homePage.searchButton).toBeVisible();
     await expect(homePage.navigationBarItems).toHaveCount(6);
-    await expect(homePage.categoryNavigationItems).toBeVisible();
+    await expect(homePage.categoryNavigation).toBeVisible();
     await expect(homePage.trendingCategoriesSection).toBeVisible();
     await expect(homePage.topProductsSection).toBeVisible();
     await expect(homePage.topCollectionSection).toBeVisible();
