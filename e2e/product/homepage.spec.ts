@@ -2,7 +2,7 @@ import { expect } from "@playwright/test";
 import { test } from "../../fixtures/fixturesBase";
 
 test.describe("Homepage tests", () => {
-  test.only("Verify homepage elements", async ({ homePage }) => {
+  test("Verify homepage elements", async ({ homePage }) => {
     await expect(homePage.searchInput).toBeVisible();
     await expect(homePage.searchButton).toBeVisible();
     await expect(homePage.navigationBarItems).toHaveCount(6);
