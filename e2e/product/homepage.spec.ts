@@ -26,4 +26,12 @@ test.describe("Homepage tests", () => {
     await expect(homePage.navigationBarItems.nth(4)).toContainText("AddOns");
     await expect(homePage.navigationBarItems.nth(5)).toContainText("My account");
   });
+
+  test("Blogs should redirect to their article", async ({ homePage, blogPage }) => {
+    const {title, locator} = await homePage.getrandomArticle();
+    await locator.click();
+
+    const redirectedTitle = await blogPage.getBlogTitle();
+    expect(title).toBe(redirectedTitle);
+  });
 });

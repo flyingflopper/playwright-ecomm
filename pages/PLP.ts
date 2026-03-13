@@ -109,4 +109,10 @@ export class ProductListingPage {
     const sortedNames = [...prodNames].sort((a, b) => b.localeCompare(a));
     return JSON.stringify(prodNames) === JSON.stringify(sortedNames);
   }
+
+  async clickonRandomProduct() {
+    const count = await this.productList.count();
+    const randomProduct = this.productList.nth(Math.floor(Math.random()*count));
+    await randomProduct.click();
+  }
 }

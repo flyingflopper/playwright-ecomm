@@ -11,6 +11,7 @@ export class HomePage {
   readonly trendingCategoriesSection: Locator;
   readonly topProductsSection: Locator;
   readonly topCollectionSection: Locator;
+  readonly blogSection: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -24,6 +25,7 @@ export class HomePage {
     this.trendingCategoriesSection = page.getByRole("heading", { name: "Top Trending Categories" });
     this.topProductsSection = page.getByText("Top Products Add to Cart Add");
     this.topCollectionSection = page.getByText("Top Collection Popular Latest");
+    this.blogSection = page.locator("#mz-article-tab-73218412-0");
   }
 
   async navigate(url: string = "https://ecommerce-playground.lambdatest.io/") {
@@ -73,5 +75,19 @@ export class HomePage {
     await this.categoryNavButton.click();
     await this.categoryNavigationItems.filter({ hasText: categoryName }).locator("a").click();
     await this.page.locator("#mz-filter-panel-0-0").waitFor({ state: "visible" });
+  }
+
+  async getrandomArticle(): Promise<{ title: string; locator: Locator }> {
+    const articles = this.blogSection.locator(".article-thumb .caption .title a[href*='article&article_id=']");
+    await articles.first().waitFor({ state: "visible" });
+    const count = await articles.count();
+
+    const randomIndex = Math.floor(Math.random() * count);
+    const randomArticle = articles.nth(randomIndex);
+
+    return {
+      title: (await randomArticle.textContent()) ?? "",
+      locator: randomArticle,
+    };
   }
 }
