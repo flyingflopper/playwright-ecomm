@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { test } from "../../fixtures/fixturesBase";
+import { ProductDetailPage } from "../../pages/PDP";
 
 test.describe("Product Listing tests", () => {
   test.beforeEach("Navigate to random category", async ({ page, homePage, productListingPage }) => {
@@ -40,6 +41,42 @@ test.describe("Product Details tests", () => {
 
   test("Check product availability", async ({ productDetailPage }) => {
     const availability = await productDetailPage.getAvailability();
-    console.log(availability)
+    console.log(availability);
+  });
+
+  test("Verify add to cart button is disabled/enabled correctly", async ({ productDetailPage }) => {
+    const availability = await productDetailPage.getAvailability();
+    console.log(availability);
+    const addtocartButton = productDetailPage.addCartButton;
+
+    if (availability == "Out Of Stock") await expect(addtocartButton).toBeDisabled();
+    else if (availability.search("Days") != -1) await expect(addtocartButton).toBeDisabled();
+    else if (availability == "In Stock") await expect(addtocartButton).toBeEnabled();
+    else return;
+  });
+
+  test("Verify buy now button is disabled/enabled correctly", async ({ productDetailPage }) => {
+    const availability = await productDetailPage.getAvailability();
+    console.log(availability);
+    const buynowButton = productDetailPage.buyNowButton;
+
+    if (availability == "Out Of Stock") await expect(buynowButton).toBeDisabled();
+    else if (availability.search("Days") != -1) await expect(buynowButton).toBeDisabled();
+    else if (availability == "In Stock") await expect(buynowButton).toBeEnabled();
+    else return;
+  });
+
+  test.only("Item is addded into cart after clicking on add to cart button", async ({ page, productDetailPage, productListingPage }) => {
+    test.setTimeout(120000);
+    let availability = await productDetailPage.getAvailability();
+    console.log(availability);
+
+    while (availability == "Out Of Stock" || availability.search("Days") != -1) {
+      await page.goBack();
+      await productListingPage.clickonRandomProduct();
+      availability = await productDetailPage.getAvailability();
+    }
+    if (availability == "In Stock") await productDetailPage.addCartButton.scrollIntoViewIfNeeded();
+    await productDetailPage.addCartButton.click();
   });
 });
