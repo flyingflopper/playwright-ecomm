@@ -66,7 +66,7 @@ test.describe("Product Details tests", () => {
     else return;
   });
 
-  test.only("Item is addded into cart after clicking on add to cart button", async ({ page, productDetailPage, productListingPage }) => {
+  test("Item is addded into cart after clicking on add to cart button", async ({ page, productDetailPage, productListingPage }) => {
     test.setTimeout(120000);
     let availability = await productDetailPage.getAvailability();
     console.log(availability);
