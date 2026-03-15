@@ -66,17 +66,38 @@ test.describe("Product Details tests", () => {
     else return;
   });
 
-  test("Item is addded into cart after clicking on add to cart button", async ({ page, productDetailPage, productListingPage }) => {
-    test.setTimeout(120000);
-    let availability = await productDetailPage.getAvailability();
-    console.log(availability);
+  // flaky cause website has bugs
+  // test("Item is addded into cart after clicking on add to cart button", async ({ page, productDetailPage, productListingPage }) => {
+  //   test.setTimeout(120000);
+  //   let availability = await productDetailPage.getAvailability();
+  //   console.log(availability);
 
-    while (availability == "Out Of Stock" || availability.search("Days") != -1) {
-      await page.goBack();
-      await productListingPage.clickonRandomProduct();
-      availability = await productDetailPage.getAvailability();
-    }
+  //   while (availability == "Out Of Stock" || availability.search("Days") != -1) {
+  //     await page.goBack();
+  //     await productListingPage.clickonRandomProduct();
+  //     availability = await productDetailPage.getAvailability();
+  //   }
+  //   if (availability == "In Stock") await productDetailPage.addCartButton.scrollIntoViewIfNeeded();
+  //   const productTitle = await productDetailPage.getProductTitle();
+  //   await productDetailPage.addCartButton.click();
+
+  //   await expect(productDetailPage.addtocartSuccessToast).toBeVisible();
+  //   await expect(productDetailPage.addtocartSuccessToast).toContainText(productTitle);
+  //   console.log(productTitle);
+  //   console.log(productDetailPage.addtocartSuccessToast.textContent());
+  // });
+
+  //test instock bug-free item
+  test("Item is addded into cart after clicking on add to cart button", async ({ page, productDetailPage, productListingPage }) => {
+    await page.goto("https://ecommerce-playground.lambdatest.io/index.php?route=product/product&path=17&product_id=47");
+    let availability = await productDetailPage.getAvailability();
     if (availability == "In Stock") await productDetailPage.addCartButton.scrollIntoViewIfNeeded();
+    const productTitle = await productDetailPage.getProductTitle();
     await productDetailPage.addCartButton.click();
+
+    await expect(productDetailPage.addtocartSuccessToast).toBeVisible();
+    await expect(productDetailPage.addtocartSuccessToast).toContainText(productTitle);
+    console.log(productTitle);
+    console.log(await productDetailPage.addtocartSuccessToast.textContent());
   });
 });

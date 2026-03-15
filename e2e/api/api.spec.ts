@@ -2,8 +2,26 @@ import { test } from "../../fixtures/fixturesBase";
 import { expect } from "@playwright/test";
 
 test.describe("Auth API", async () => {
+  test("Verify Register API", async ({ userEmail, request }) => {
+    const response = await request.post(process.env.REGISTER_URL!, {
+      form: {
+        firstname: "abc",
+        lastname: "xyz",
+        email: userEmail,
+        telephone: "92872722",
+        password: process.env.AUTH_PASSWORD!,
+        confirm: process.env.AUTH_PASSWORD!,
+        newsletter: 0,
+        agree: 1,
+      },
+    });
+    expect(response.status()).toBe(200);
+    expect(response.ok()).toBeTruthy();
+    expect(response.url()).toContain("route=account/success");
+  });
+
   test("Verify Login API", async ({ page, request }) => {
-    const response = await request.post("https://ecommerce-playground.lambdatest.io/index.php?route=account/login", {
+    const response = await request.post(process.env.LOGIN_URL!, {
       form: {
         email: process.env.AUTH_EMAIL!,
         password: process.env.AUTH_PASSWORD!,
@@ -48,4 +66,19 @@ test.describe("PLP API tests", async () => {
       expect(page.url()).toContain(`order=${order}`);
     });
   }
+});
+
+test.describe("PDP API tests", async () => {
+  test("Add to cart API", async ({ request }) => {
+    const response = await request.post(process.env.CHECKOUT_URL! + "/cart/add", {
+      form: {
+        quantity: "1",
+        product_id: "47",
+      },
+    });
+    console.log(response.statusText());
+    console.log(await response.json());
+    expect(response.status()).toBe(200);
+    expect(response.ok()).toBeTruthy();
+  });
 });
