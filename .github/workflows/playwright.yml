@@ -18,6 +18,9 @@ jobs:
           mkdir -p utils
           cat > utils/.env << EOF
           BASE_URL=${{ secrets.BASE_URL }}
+          REGISTER_URL=${{ secrets.REGISTER_URL }}
+          LOGIN_URL=${{ secrets.LOGIN_URL }}
+          CHECKOUT_URL=${{ secrets.CHECKOUT_URL }}
           AUTH_EMAIL=${{ secrets.AUTH_EMAIL }}
           AUTH_PASSWORD=${{ secrets.AUTH_PASSWORD }}
           EOF
