@@ -4,7 +4,8 @@ import { test as homepageTest } from "./homepageFixture";
 import { test as plpTest } from "./plpFixture";
 import { test as blogTest } from "./blogFixture";
 import { test as pdpTest } from "./pdpFixture";
+import { test as checkoutTest } from "./checkoutFixture"
 
-export const test = mergeTests(homepageTest, authTest, plpTest, blogTest, pdpTest);
+export const test = mergeTests(homepageTest, authTest, plpTest, blogTest, pdpTest, checkoutTest);
 
 export { expect } from "@playwright/test";

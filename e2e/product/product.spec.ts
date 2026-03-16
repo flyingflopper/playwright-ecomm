@@ -93,11 +93,21 @@ test.describe("Product Details tests", () => {
     let availability = await productDetailPage.getAvailability();
     if (availability == "In Stock") await productDetailPage.addCartButton.scrollIntoViewIfNeeded();
     const productTitle = await productDetailPage.getProductTitle();
-    await productDetailPage.addCartButton.click();
+    await productDetailPage.addProductToCart();
 
     await expect(productDetailPage.addtocartSuccessToast).toBeVisible();
     await expect(productDetailPage.addtocartSuccessToast).toContainText(productTitle);
     console.log(productTitle);
     console.log(await productDetailPage.addtocartSuccessToast.textContent());
+  });
+
+  test("Redirected to checkout page if Buy now button is clicked", async ({ page, productDetailPage, productListingPage }) => {
+    await page.goto("https://ecommerce-playground.lambdatest.io/index.php?route=product/product&path=17&product_id=47");
+    let availability = await productDetailPage.getAvailability();
+    if (availability == "In Stock") await productDetailPage.addCartButton.scrollIntoViewIfNeeded();
+    const productTitle = await productDetailPage.getProductTitle();
+    await productDetailPage.buyProduct();
+
+    await expect(page).toHaveURL(/route=checkout\/checkout/);
   });
 });

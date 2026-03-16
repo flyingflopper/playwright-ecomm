@@ -6,7 +6,7 @@ type myFixtures = {
 };
 
 export const test = base.extend<myFixtures>({
-    blogPage: async ( {page}, use) => {
+    blogPage: async ({ page }, use) => {
         const blogPage = new BlogPage(page);
         await use(blogPage);
     }
