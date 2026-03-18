@@ -22,7 +22,7 @@ jobs:
           REGISTER_URL=${{ secrets.REGISTER_URL }}
           LOGIN_URL=${{ secrets.LOGIN_URL }}
           CHECKOUT_URL=${{ secrets.CHECKOUT_URL }}
-          CHECKOUTPAGE_URL= ${{ secrets.CHECKOUTPAGE_URL }}
+          CHECKOUTPAGE_URL=${{ secrets.CHECKOUTPAGE_URL }}
           AUTH_EMAIL=${{ secrets.AUTH_EMAIL }}
           AUTH_PASSWORD=${{ secrets.AUTH_PASSWORD }}
           EOF
