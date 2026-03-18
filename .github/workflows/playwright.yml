@@ -16,12 +16,13 @@ jobs:
       - name: Create .env file
         run: |
           mkdir -p utils
+          mkdir -p utils/auth
           cat > utils/.env << EOF
           BASE_URL=${{ secrets.BASE_URL }}
           REGISTER_URL=${{ secrets.REGISTER_URL }}
           LOGIN_URL=${{ secrets.LOGIN_URL }}
           CHECKOUT_URL=${{ secrets.CHECKOUT_URL }}
-          CHECKOUTPAGE_URL: ${{ secrets.CHECKOUTPAGE_URL }}
+          CHECKOUTPAGE_URL= ${{ secrets.CHECKOUTPAGE_URL }}
           AUTH_EMAIL=${{ secrets.AUTH_EMAIL }}
           AUTH_PASSWORD=${{ secrets.AUTH_PASSWORD }}
           EOF
