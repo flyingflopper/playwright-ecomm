@@ -7,13 +7,21 @@ test.describe("Checkout Tests", () => {
   });
 
   test("Enter details and complete checkout", async ({ checkoutPage, page }) => {
-    await checkoutPage.fillLoggedInDetails("John", "Doe", "9827722");
-    await checkoutPage.fillBillingDetails("123 Sing", "London", "SW1A 1AA", "United Kingdom", "Greater London");
-    await checkoutPage.completeLoggedInCheckout();
-    await expect(page).toHaveURL(/route=extension\/maza\/checkout\/confirm/);
-    await expect(page.locator("h1.page-title")).toHaveText("Confirm Order");
+    const isExistingPresent = await checkoutPage.checkExistingAddressPresence();
 
-    await checkoutPage.confirmOrder();
-    await expect(page).toHaveURL(/route=checkout\/success/);
+    if (isExistingPresent == true) {
+      await checkoutPage.completeLoggedInCheckout();
+      await checkoutPage.confirmOrder();
+      await expect(page).toHaveURL(/route=checkout\/success/);
+    } else {
+      await checkoutPage.fillLoggedInDetails("John", "Doe", "9827722");
+      await checkoutPage.fillBillingDetails("123 Sing", "London", "SW1A 1AA", "United Kingdom", "Greater London");
+      await checkoutPage.completeLoggedInCheckout();
+      await expect(page).toHaveURL(/route=extension\/maza\/checkout\/confirm/);
+      await expect(page.locator("h1.page-title")).toHaveText("Confirm Order");
+
+      await checkoutPage.confirmOrder();
+      await expect(page).toHaveURL(/route=checkout\/success/);
+    }
   });
 });

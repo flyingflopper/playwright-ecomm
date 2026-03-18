@@ -23,6 +23,7 @@ export class CheckoutPage {
     confirmPassword: Locator;
   };
   readonly billingDetails: {
+    existing: Locator;
     company: Locator;
     address1: Locator;
     address2: Locator;
@@ -72,6 +73,7 @@ export class CheckoutPage {
     };
 
     this.billingDetails = {
+      existing: page.locator("#input-payment-address-existing"),
       company: page.locator("#input-payment-company"),
       address1: page.locator("#input-payment-address-1"),
       address2: page.locator("#input-payment-address-2"),
@@ -143,5 +145,10 @@ export class CheckoutPage {
   async confirmOrder() {
     await this.confirmButton.click();
     await this.page.waitForURL(/route=checkout\/success/);
+  }
+
+  async checkExistingAddressPresence(): Promise<Boolean> {
+    if (await this.billingDetails.existing.isVisible()) return true;
+    else return false;
   }
 }
