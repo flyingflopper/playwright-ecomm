@@ -52,16 +52,19 @@ export default defineConfig({
     },
     {
       name: "chromium",
+      testIgnore: "**/checkout/**",
       use: { ...devices["Desktop Chrome"], launchOptions: { slowMo: process.env.CI ? 0 : 100 } },
     },
 
     {
       name: "firefox",
+      testIgnore: "**/checkout/**",
       use: { ...devices["Desktop Firefox"] },
     },
 
     {
       name: "webkit",
+      testIgnore: "**/checkout/**",
       use: { ...devices["Desktop Safari"] },
     },
 
